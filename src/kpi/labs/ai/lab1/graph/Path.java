@@ -32,6 +32,6 @@ public class Path {
 
     @Override
     public String toString() {
-        return "" + path;
+        return "" + path + "\n";
     }
 }

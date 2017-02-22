@@ -13,20 +13,15 @@ import java.util.*;
 public class GraphProcessor {
 
     public void breadthFirstSearchForLongestLink(Graph graph) {
-        int maxLength = 0;
+        List<Path> longestPathes = new ArrayList<>();
         for (Node node : graph.getNodes()) {
-            int curentNodeLength = 0;
-            curentNodeLength = breadthFirstSearchMaxLength(node);
-            if (curentNodeLength > maxLength) {
-                maxLength = curentNodeLength;
-            }
+            longestPathes.addAll(breadthFirstSearchMaxLength(node));
             node.refreshTraverse();
         }
-        System.out.println(maxLength);
+        System.out.println(getLongestPath(longestPathes));
     }
 
-    private int breadthFirstSearchMaxLength(Node headNode) {
-        int i = 0;
+    private List<Path> breadthFirstSearchMaxLength(Node headNode) {
         Queue<Node> queue = new LinkedList<>();
         Map<String, Path> wholePath = new HashMap<>();
 
@@ -54,8 +49,7 @@ public class GraphProcessor {
                 queue.add(((NodeRelation) childRelation).getChildNode());
             }
         }
-        System.out.println(getLongestPath(wholePath));
-        return 0;
+        return getLongestPath(wholePath.values());
     }
 
     private static String getFullKey (Set<String> values, String substring) {
@@ -67,15 +61,15 @@ public class GraphProcessor {
         return null;
     }
 
-    private static List<Path> getLongestPath (Map<String, Path> pathMap) {
+    private static List<Path> getLongestPath (Collection<Path> paths) {
         List<Path> longestPathList = new ArrayList<>();
         Path longestPath = new Path();
-        for (Path path : pathMap.values()) {
+        for (Path path : paths) {
             if (longestPath.getSize() < path.getSize()) {
                 longestPath = path;
             }
         }
-        for (Path path : pathMap.values()) {
+        for (Path path : paths) {
             if (longestPath.getSize() == path.getSize()) {
                 longestPathList.add(path);
             }
