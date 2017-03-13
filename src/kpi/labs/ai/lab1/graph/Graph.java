@@ -32,7 +32,7 @@ public class Graph {
     public Graph(List<Node> nodes) {
         this.nodes = new HashMap<>();
         this.nodes.putAll(this.makeMap(nodes));
-        this.processor = new GraphProcessor();
+        this.processor = new BreadthFirstGraphProcessorV2();
     }
 
     private Map<String, Node> makeMap(List<Node> nodes) {

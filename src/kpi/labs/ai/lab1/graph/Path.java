@@ -30,6 +30,13 @@ public class Path {
         return this.path.size();
     }
 
+    public NodeRelation getLastPathLink() {
+        if (path.isEmpty()) {
+            return null;
+        }
+        return path.get(path.size() - 1);
+    }
+
     @Override
     public String toString() {
         return "" + path + "\n";

@@ -8,6 +8,7 @@ import kpi.labs.ai.lab1.graph.Graph;
 public class Main {
     public static void main (String[] args) {
         Graph graph = new Graph();
+        /*
         graph.addNodesWithRelations("1", "2");
         graph.addNodesWithRelations("1", "3");
         graph.addNodesWithRelations("1", "4");
@@ -16,6 +17,12 @@ public class Main {
         graph.addNodesWithRelations("3", "7");
         graph.addNodesWithRelations("4", "8");
         graph.addNodesWithRelations("5", "9");
+        */
+
+        graph.addNodesWithRelations("1", "2");
+        graph.addNodesWithRelations("1", "3");
+        graph.addNodesWithRelations("2", "4");
+        graph.addNodesWithRelations("3", "4");
 
         graph.display();
         graph.getMaximumLengthLink();

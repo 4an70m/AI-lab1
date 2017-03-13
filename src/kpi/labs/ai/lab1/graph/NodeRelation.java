@@ -15,11 +15,13 @@ public class NodeRelation {
     private Node parentNode;
     private Node childNode;
     private Boolean isPassed;
+    private int passCounter;
 
     public NodeRelation(Node parentNode, Node childNode) {
         this.parentNode = parentNode;
         this.childNode = childNode;
         this.isPassed = false;
+        this.passCounter = 0;
     }
 
     public Node getParentNode() {
@@ -31,11 +33,17 @@ public class NodeRelation {
     }
 
      public Boolean getPassed() {
-         return isPassed;
+        return isPassed;
      }
 
      public void setPassed(Boolean passed) {
-         isPassed = passed;
+        if (passed && passCounter >= 2) {
+            passCounter++;
+            isPassed = passed;
+        } else if (!passed) {
+            passCounter = 0;
+            isPassed = passed;
+        }
      }
 
      @Override
