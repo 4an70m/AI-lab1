@@ -21,7 +21,7 @@ public class Graph {
      * Creates an empty graph.
      */
     public Graph() {
-        this(new ArrayList<>());
+        this(new ArrayList<>(), new BreadthFirstGraphProcessorV3());
     }
 
     /**
@@ -30,9 +30,13 @@ public class Graph {
      * @param nodes
      */
     public Graph(List<Node> nodes) {
+        this(nodes, new BreadthFirstGraphProcessorV3());
+    }
+
+    public Graph(List<Node> nodes, GraphProcessor processor) {
         this.nodes = new HashMap<>();
         this.nodes.putAll(this.makeMap(nodes));
-        this.processor = new BreadthFirstGraphProcessorV2();
+        this.processor = processor;
     }
 
     private Map<String, Node> makeMap(List<Node> nodes) {
@@ -66,6 +70,10 @@ public class Graph {
 
     public Boolean isEmpty() {
         return nodes.isEmpty();
+    }
+
+    public Node getNodeByValue(Integer value) {
+        return nodes.get(value.toString());
     }
 
     @Override

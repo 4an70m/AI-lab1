@@ -32,21 +32,28 @@ public class NodeRelation {
         return childNode;
     }
 
-     public Boolean getPassed() {
-        return isPassed;
-     }
+    public Boolean getPassed() {
+    return isPassed;
+    }
 
-     public void setPassed(Boolean passed) {
-        if (passed && passCounter >= 2) {
-            passCounter++;
-            isPassed = passed;
-        } else if (!passed) {
-            passCounter = 0;
-            isPassed = passed;
-        }
-     }
+    public void setPassed(Boolean passed) {
+    isPassed = passed;
+    /*
+    if (passed && passCounter >= 1) {
+        passCounter++;
+        isPassed = passed;
+    } else if (!passed) {
+        passCounter = 0;
+        isPassed = passed;
+    }
+    */
+    }
 
-     @Override
+    public NodeRelation getReversedRelation() {
+        return new NodeRelation(childNode, parentNode);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
