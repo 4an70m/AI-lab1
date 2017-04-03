@@ -33,20 +33,19 @@ public class NodeRelation {
     }
 
     public Boolean getPassed() {
-    return isPassed;
+        return isPassed;
     }
 
     public void setPassed(Boolean passed) {
-    isPassed = passed;
-    /*
-    if (passed && passCounter >= 1) {
-        passCounter++;
-        isPassed = passed;
-    } else if (!passed) {
-        passCounter = 0;
-        isPassed = passed;
-    }
-    */
+        //isPassed = passed;
+
+        if (passed) {
+            passCounter++;
+            if (passCounter == 2) {
+                this.isPassed = passed;
+            }
+        }
+
     }
 
     public NodeRelation getReversedRelation() {

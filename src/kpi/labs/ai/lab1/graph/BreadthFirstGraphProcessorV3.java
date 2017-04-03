@@ -14,6 +14,7 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
                         graph.getNodeByValue(4),
                         graph.getNodeByValue(3))
         );
+        System.out.println(longestPathes);
         System.out.println(getLongestPath(longestPathes));
 
     }
@@ -25,10 +26,14 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
 
         while (!agenda.isEmpty()) {
             Node node = (Node) agenda.remove();
-            for ( NodeRelation childRelation : node.getRelations()) {
-                Path selectedPath = pathManager.add(childRelation);
-                if (!selectedPath.containsRelation(childRelation)) {
-                    agenda.add(childRelation.getChildNode());
+            for (NodeRelation childRelation : node.traverseRelation()) {
+
+                List<Path> selectedPaths = pathManager.add(childRelation);
+                for (Path path : selectedPaths) {
+                    if (!path.isFinished()) {
+                        System.out.println(path);
+                        agenda.add(childRelation.getChildNode());
+                    }
                 }
 
             }
@@ -43,13 +48,14 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
             pathes = new LinkedList<>();
         }
 
-        public Path add (NodeRelation relation) {
-            Path selectedPath = null;
+        public List<Path> add (NodeRelation relation) {
+            List<Path> selectedPaths = new ArrayList<>();
             if (pathes.isEmpty()) {
-                selectedPath = new Path();
-                selectedPath.add(relation);
-                pathes.add(selectedPath);
-                return selectedPath;
+                Path newPath = new Path();
+                newPath.add(relation);
+                pathes.add(newPath);
+                selectedPaths.add(newPath);
+                return selectedPaths;
             }
             for (Path path : new LinkedList<Path>(pathes)) {
                 if (path.isFinished()) {
@@ -58,12 +64,16 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
 
                 NodeRelation lastLink = path.getLastPathLink();
                 if (lastLink.getChildNode().equals(relation.getParentNode())) {
-                    selectedPath = new Path(path);
-                    selectedPath.add(relation);
-                    pathes.add(selectedPath);
+                    Path newPath = new Path(path);
+                    newPath.add(relation);
+                    if (path.isFinished()) {
+                        continue;
+                    }
+                    selectedPaths.add(newPath);
+                    pathes.add(newPath);
                 }
             }
-            return selectedPath;
+            return selectedPaths;
         }
     }
 

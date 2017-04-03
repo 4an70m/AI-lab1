@@ -1,5 +1,7 @@
 package kpi.labs.ai.lab1.graph;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,13 +52,14 @@ public class Path {
     }
 
     public boolean isFinished() {
+        boolean isFinished = false;
         for (NodeRelation relation : this.path) {
             if (this.containsRelation(relation)) {
-                this.isFinished = true;
+                isFinished = true;
                 break;
             }
         }
-        return this.isFinished;
+        return this.isFinished || isFinished;
     }
 
     @Override
