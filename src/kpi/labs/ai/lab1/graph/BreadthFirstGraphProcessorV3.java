@@ -9,7 +9,6 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
 
     public void breadthFirstSearchForLongestLink(Graph graph) {
         List<Path> longestPathes = new ArrayList<>();
-//        longestPathes.addAll(breadthFirstSearchMaxLength(graph.getNodeByValue(4)));
         for (Node headNode : graph.getNodes()) {
             longestPathes.addAll(breadthFirstSearchMaxLength(headNode));
             headNode.refreshTraverse();
@@ -30,7 +29,6 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
                 List<Path> selectedPaths = pathManager.add(childRelation);
                 for (Path path : selectedPaths) {
                     if (!path.isFinished()) {
-                        System.out.println(path);
                         agenda.add(childRelation.getChildNode());
                     }
                 }
