@@ -2,9 +2,7 @@ package kpi.labs.ai.lab1.graph;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by 4an70m on 21.02.2017.
@@ -51,6 +49,20 @@ public class Path {
         return this.isFinished;
     }
 
+    public Boolean isPathValid() {
+        PathCounter counter = new PathCounter();
+        for (NodeRelation relation : path) {
+            Node parentNode = relation.getParentNode();
+            Node childNode = relation.getChildNode();
+            counter.count(parentNode);
+            counter.count(childNode);
+            if (counter.twiceMore(parentNode) || counter.twiceMore(childNode)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean isFinished() {
         boolean isFinished = false;
         for (NodeRelation relation : this.path) {
@@ -60,6 +72,25 @@ public class Path {
             }
         }
         return this.isFinished || isFinished;
+    }
+
+    private class PathCounter {
+        private Map<Node, Integer> counter;
+        public PathCounter() {
+            this.counter = new HashMap<>();
+        }
+        public int count(Node node) {
+            if (!counter.containsKey(node)) {
+                counter.put(node, 0);
+            }
+            int curCounter = counter.get(node) + 1;
+            counter.put(node, curCounter);
+            return curCounter;
+        }
+        public Boolean twiceMore(Node node) {
+            return counter.get(node) != null
+                && counter.get(node) > 2;
+        }
     }
 
     @Override

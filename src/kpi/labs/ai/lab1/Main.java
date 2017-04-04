@@ -19,11 +19,20 @@ public class Main {
         graph.addNodesWithRelations("5", "9");
         */
 
-        graph.addNodesWithRelations("4", "2");
-        graph.addNodesWithRelations("2", "1");
+//        graph.addNodesWithRelations("4", "2");
+//        graph.addNodesWithRelations("2", "1");
+//        graph.addNodesWithRelations("2", "3");
+//        graph.addNodesWithRelations("1", "5");
+//        graph.addNodesWithRelations("3", "5");
+        graph.addNodesWithRelations("1", "2");
         graph.addNodesWithRelations("2", "3");
-        graph.addNodesWithRelations("1", "5");
+        graph.addNodesWithRelations("2", "4");
         graph.addNodesWithRelations("3", "5");
+        graph.addNodesWithRelations("4", "5");
+        graph.addNodesWithRelations("4", "6");
+        graph.addNodesWithRelations("5", "6");
+        graph.addNodesWithRelations("6", "7");
+
 
         graph.display();
         graph.getMaximumLengthLink();

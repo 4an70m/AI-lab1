@@ -40,10 +40,13 @@ public class NodeRelation {
         //isPassed = passed;
 
         if (passed) {
-            passCounter++;
-            if (passCounter == 2) {
+            this.passCounter++;
+            if (this.passCounter >= 2) {
                 this.isPassed = passed;
             }
+        } else {
+            this.isPassed = passed;
+            this.passCounter = 0;
         }
 
     }

@@ -9,17 +9,16 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
 
     public void breadthFirstSearchForLongestLink(Graph graph) {
         List<Path> longestPathes = new ArrayList<>();
-        longestPathes.addAll(
-                breadthFirstSearchMaxLength(
-                        graph.getNodeByValue(4),
-                        graph.getNodeByValue(3))
-        );
-        System.out.println(longestPathes);
+//        longestPathes.addAll(breadthFirstSearchMaxLength(graph.getNodeByValue(4)));
+        for (Node headNode : graph.getNodes()) {
+            longestPathes.addAll(breadthFirstSearchMaxLength(headNode));
+            headNode.refreshTraverse();
+        }
         System.out.println(getLongestPath(longestPathes));
 
     }
 
-    private Queue<Path> breadthFirstSearchMaxLength(Node headNode, Node nodeToSearch) {
+    private Queue<Path> breadthFirstSearchMaxLength(Node headNode) {
         PathManager pathManager = new PathManager();
         Queue<Node> agenda = new LinkedList<>();
         agenda.add(headNode);
@@ -38,11 +37,11 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
 
             }
         }
-        return pathManager.pathes;
+        return pathManager.getPathes();
     }
 
     public class PathManager {
-        public Queue<Path> pathes;
+        private Queue<Path> pathes;
 
         public PathManager(){
             pathes = new LinkedList<>();
@@ -75,9 +74,20 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
             }
             return selectedPaths;
         }
+
+        public Queue<Path> getPathes() {
+            Queue<Path> result = new LinkedList<Path>();
+            for (Path path : this.pathes) {
+                if(path.isPathValid()) {
+                    result.add(path);
+                }
+            }
+            return result;
+        }
     }
 
-    private static List<Path> getLongestPath (Collection<Path> paths) {
+    private static List<Path> getLongestPath (Collection<Path> listpaths) {
+        Set<Path> paths = new HashSet<>(listpaths);
         List<Path> longestPathList = new ArrayList<>();
         Path longestPath = new Path();
         for (Path path : paths) {
