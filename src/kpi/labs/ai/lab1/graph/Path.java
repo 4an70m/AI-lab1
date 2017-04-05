@@ -1,6 +1,5 @@
 package kpi.labs.ai.lab1.graph;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.util.*;
 
@@ -41,14 +40,6 @@ public class Path {
         return path.get(path.size() - 1);
     }
 
-    public boolean containsRelation(NodeRelation relation) {
-        this.isFinished = (
-              Collections.frequency(path, relation)
-            + Collections.frequency(path, relation.getReversedRelation())
-        ) > 1;
-        return this.isFinished;
-    }
-
     public Boolean isPathValid() {
         PathCounter counter = new PathCounter();
         for (NodeRelation relation : path) {
@@ -56,7 +47,7 @@ public class Path {
             Node childNode = relation.getChildNode();
             counter.count(parentNode);
             counter.count(childNode);
-            if (counter.twiceMore(parentNode) || counter.twiceMore(childNode)) {
+            if (counter.twiceOrMore(parentNode) || counter.twiceOrMore(childNode)) {
                 return false;
             }
         }
@@ -64,6 +55,9 @@ public class Path {
     }
 
     public boolean isFinished() {
+        if (this.isFinished) {
+            return this.isFinished;
+        }
         boolean isFinished = false;
         for (NodeRelation relation : this.path) {
             if (this.containsRelation(relation)) {
@@ -71,7 +65,29 @@ public class Path {
                 break;
             }
         }
-        return this.isFinished || isFinished;
+        
+        for (int i = 0; i < this.path.size(); i++) {
+            NodeRelation orelation = this.path.get(i);
+            for (int j = i; j < this.path.size(); j++) {
+                NodeRelation irelation = this.path.get(j);
+                if (!orelation.equals(irelation)) {
+                    if(orelation.getParentNode().equals(irelation.getChildNode())){
+                        isFinished = true;
+                        break;
+                    }
+                }
+            }
+        }
+        this.isFinished = isFinished;
+        return this.isFinished;
+    }
+    
+    public boolean containsRelation(NodeRelation relation) {
+        this.isFinished = (
+              Collections.frequency(path, relation)
+            + Collections.frequency(path, relation.getReversedRelation())
+        ) > 1;
+        return this.isFinished;
     }
 
     private class PathCounter {
@@ -87,11 +103,42 @@ public class Path {
             counter.put(node, curCounter);
             return curCounter;
         }
-        public Boolean twiceMore(Node node) {
+        public Boolean twiceOrMore(Node node) {
             return counter.get(node) != null
                 && counter.get(node) > 2;
         }
+        public Boolean onceOrMore(Node node) {
+            return counter.get(node) != null
+                && counter.get(node) > 1;
+        }
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.path);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Path other = (Path) obj;
+        if (!Objects.equals(this.path, other.path)) {
+            return false;
+        }
+        if (this.isFinished != other.isFinished) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 
     @Override
     public String toString() {

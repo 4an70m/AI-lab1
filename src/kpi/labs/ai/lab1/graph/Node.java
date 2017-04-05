@@ -115,6 +115,7 @@ public class Node {
 
     public void refreshTraverse() {
         for (NodeRelation relation : relations) {
+            relation.refreshCounter();
             if (!relation.getPassed()) {
                 continue;
             }

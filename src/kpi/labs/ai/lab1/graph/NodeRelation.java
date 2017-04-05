@@ -37,11 +37,11 @@ public class NodeRelation {
     }
 
     public void setPassed(Boolean passed) {
-        //isPassed = passed;
+        isPassed = passed;
 
         if (passed) {
             this.passCounter++;
-            if (this.passCounter >= 2) {
+            if (this.passCounter >= 1) {
                 this.isPassed = passed;
             }
         } else {
@@ -79,5 +79,9 @@ public class NodeRelation {
                 parentNode.getValue() +
                 ">==<" + childNode.getValue() +
                 ">";
+    }
+
+    void refreshCounter() {
+        this.passCounter = 0;
     }
 }
