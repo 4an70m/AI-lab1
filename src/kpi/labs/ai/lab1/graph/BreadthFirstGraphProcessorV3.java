@@ -14,9 +14,6 @@ public class BreadthFirstGraphProcessorV3 implements GraphProcessor{
             longestPathes.addAll(breadthFirstSearchMaxLength(headNode));
             headNode.refreshTraverse();
         }
-//        System.out.println(breadthFirstSearchMaxLength(graph.getNodeByValue(7)));
-//        longestPathes.addAll(breadthFirstSearchMaxLength(graph.getNodeByValue(7)));
-        //System.out.println(longestPathes);
         System.out.println(getLongestPath(longestPathes));
 
     }
